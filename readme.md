@@ -7,7 +7,7 @@ Automatically archive unused private HipChat rooms.
 The easiest way to use this is the Docker container:
 
 ```bash
-$ docker run -d hipchat-janitor -token=<HipChat API Token> -url=<HipChat server URL>
+$ docker run -d markitondemand/hipchat-janitor -token=<HipChat API Token> -url=<HipChat server URL>
 ```
 
 This will cleanup any rooms that haven't been touched in 30 days every 24 hours.
