@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/tbruyelle/hipchat-go/hipchat"
 )
 
@@ -43,6 +44,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("Fatal: could not parse URL flag: %v", err)
 	}
+
+	// setup health server
+	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusOK) })
+	http.ListenAndServe(":3000", nil)
+
+	// setup metrics server
+	http.Handle("/metrics", promhttp.Handler())
+	http.ListenAndServe(":3001", nil)
 
 	// create a HipChat client
 	client := hipchat.NewClient(*tokenFlag)
