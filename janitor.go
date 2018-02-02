@@ -47,11 +47,11 @@ func main() {
 
 	// setup health server
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) { w.WriteHeader(http.StatusOK) })
-	http.ListenAndServe(":3000", nil)
+	go http.ListenAndServe(":3000", nil)
 
 	// setup metrics server
 	http.Handle("/metrics", promhttp.Handler())
-	http.ListenAndServe(":3001", nil)
+	go http.ListenAndServe(":3001", nil)
 
 	// create a HipChat client
 	client := hipchat.NewClient(*tokenFlag)
